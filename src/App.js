@@ -1,24 +1,46 @@
 import React from 'react';
 import logo from './logo.svg';
-import './App.css';
+import {Route, Switch} from "react-router-dom";
+
+import './styles/App.css';
+import MapContainer from "./MapContainer";
+import History from './History';
+import Login from './Login';
+import Register from './Register';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <Switch>
+            <Route
+                exact
+                path="/"
+                render={routeProps => (
+                    <MapContainer {...routeProps}/>
+                )}
+            />
+            <Route
+                exact
+                path="/login"
+                render={routeProps =>(
+                    <Login/>
+                )}
+            />
+            <Route
+                exact
+                path={"/register"}
+                render={routeProps =>(
+                    <Register/>
+                )}
+            />
+            <Route
+                exact
+                path={"/history/:id"}
+                render={routeProps =>(
+                    <History/>
+                )}
+            />
+        </Switch>
     </div>
   );
 }

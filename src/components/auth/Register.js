@@ -1,4 +1,8 @@
 import React, {Component} from 'react';
+import * as PropTypes from "prop-types";  // to map prop to prop-types
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux' // to use redux in a component
+import { registerUser, loginUser } from "../../actions/authActions";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Avatar from "@material-ui/core/Avatar";
@@ -12,8 +16,10 @@ import Box from "@material-ui/core/Box";
 import Checkbox from "@material-ui/core/Checkbox";
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import {withStyles} from "@material-ui/core";
-import styles from './styles/LoginStyles'
+import styles from '../..//styles/LoginStyles'
 import {TextValidator, ValidatorForm} from "react-material-ui-form-validator";
+import {message} from "antd";
+import axios from "axios";
 
 
 
@@ -22,14 +28,23 @@ class Register extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: "",
+            // email: "",
+            username:"",
             password: "",
-            repeatPassword:""
+            repeatPassword:"",
+            errors:{},
+            loading: false
         };
         this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
 
     }
-    componentDidMount() {
+    componentDidMount() {  // if user is already logged in redirect
+        if(this.props.auth.isAuthenticated){
+            this.props.history.push('/');
+            message.success("You can't signUp when logged in. Redirecting..")
+
+        }
         ValidatorForm.addValidationRule('isPasswordMatch',(value)=> {
             if (value !== this.state.password) {
                 return false;
@@ -37,7 +52,21 @@ class Register extends Component {
             return true;
 
         });
+    }
 
+    componentWillReceiveProps(nextProps, nextState) {      // take the new errors from nextProps if any and set that to errors in the state
+        if(nextProps.errors  && !nextProps.auth.isAuthenticated){
+            this.setState({errors: nextProps.errors}, ()=>{
+                this.setState({loading:false});
+                message.error(this.state.errors.message);
+            });
+        }else{
+            const newUser = {
+                username: this.state.username,
+                password: this.state.password
+            };
+            setTimeout(()=>this.props.loginUser(newUser, this.props.history), 500);
+        }
     }
     handleChange(evt){
         this.setState({
@@ -47,17 +76,22 @@ class Register extends Component {
 
     handleSubmit(evt){
         evt.preventDefault();
-        const user = {
-            email: this.state.email,
+        console.log(`Handling submit`);
+
+        const newUser = {
+            username: this.state.username,
             password: this.state.password
         };
-        this.setState({email: "", password:"", repeatPassword:""});
+        this.setState({loading: true});
+        this.props.registerUser(newUser, this.props.history);   //so we can redirect from action
+        // we dont have to do http://5000 cus of the proxy value we included in our package.json
+
 
         console.log(`Handle submit`);
     }
     render() {
         const {classes} = this.props;
-        const {email, password, repeatPassword} = this.state;
+        const {email, username, password, repeatPassword, loading} = this.state;
         return (
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
@@ -70,23 +104,36 @@ class Register extends Component {
                     </Typography>
 
                     <ValidatorForm onSubmit={this.handleSubmit} ref={'form'} className={classes.form}>
+                        {/*<TextValidator*/}
+                            {/*className={classes.form}*/}
+                            {/*value={email}*/}
+                            {/*placeholder={"Email Address"}*/}
+                            {/*name={"email"}*/}
+                            {/*variant={"outlined"}*/}
+                            {/*margin={"normal"}*/}
+                            {/*onChange={this.handleChange}*/}
+                            {/*id="email"*/}
+                            {/*label={"Email*"}*/}
+                            {/*autoComplete="email"*/}
+                            {/*autoFocus*/}
+                            {/*//the order of validators and error messages matter*/}
+                            {/*validators={["required","isEmail"]}*/}
+                            {/*errorMessages={[*/}
+                                {/*"Enter an email",*/}
+                                {/*"Must be an Email"]}*/}
+                        {/*/>*/}
                         <TextValidator
-                            className={classes.form}
-                            value={email}
-                            placeholder={"Email Address"}
-                            name={"email"}
-                            variant={"outlined"}
-                            margin={"normal"}
+                            label={"Username*"}
+                            value={username}
+                            name={"username"}
                             onChange={this.handleChange}
-                            id="email"
-                            label={"Email*"}
-                            autoComplete="email"
-                            autoFocus
-                            //the order of validators and error messages matter
-                            validators={["required","isEmail"]}
-                            errorMessages={[
-                                "Enter an email",
-                                "Must be an Email"]}
+                            fullWidth
+                            placeholder={"Username"}
+                            variant={"outlined"}
+                            type={'text'}
+                            margin={"normal"}
+                            validators={["required"]}
+                            errorMessages={["Enter a username"]}
                         />
                         <TextValidator
                             className={classes.form}
@@ -132,6 +179,7 @@ class Register extends Component {
                             fullWidth
                             variant="contained"
                             color="primary"
+                            disabled={loading}
                             className={classes.submit}
                         >
                             Sign Up
@@ -164,7 +212,20 @@ class Register extends Component {
     }
 }
 
+Register.propTypes ={
+    loginUser: PropTypes.func.isRequired,
+    registerUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired
+};
 
-export default withStyles(styles, {withTheme: true})(Register);
+// if we want to get the auth state to our component we use
+const mapStateToProps = (state) =>({
+    auth: state.auth,  //the name auth in state.auth comes from our root reducer(index)
+    errors: state.errors
+});
+
+
+export default connect(mapStateToProps, { registerUser, loginUser })(withStyles(styles, {withTheme: true})(withRouter(Register)))
 
 

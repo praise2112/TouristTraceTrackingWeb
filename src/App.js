@@ -13,10 +13,12 @@ import store from './store';
 import './styles/App.css';
 import MapContainer from "./components/MapContainer";
 import History from './components/History';
+import Profile from './components/Profile';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import '../node_modules/antd/dist/antd.css';
+import PrivateRoute from "./components/common/PrivateRoute";
 
 // Check for token
 if(localStorage.jwtToken){
@@ -63,15 +65,18 @@ function App() {
                         exact
                         path={"/register"}
                         render={routeProps =>(
-                            <Register/>
+                            <Register {...routeProps}/>
                         )}
                     />
-                    <Route
+                    <PrivateRoute
                         exact
                         path={"/history/:id"}
-                        render={routeProps =>(
-                            <History {...routeProps}/>
-                        )}
+                        component={History}
+                    />
+                    <PrivateRoute
+                        exact
+                        path={'/profile'}
+                        component={Profile}
                     />
                 </Switch>
             </div>

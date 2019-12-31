@@ -55,7 +55,8 @@ class Login extends Component {
         if(nextProps.errors && !nextProps.auth.isAuthenticated){
             this.setState({errors: nextProps.errors}, ()=>{
                 this.setState({loading:false});
-                message.error(this.state.errors.message)
+                if(this.state.errors.message !== undefined)
+                    message.error(this.state.errors.message);
             });
 
         }

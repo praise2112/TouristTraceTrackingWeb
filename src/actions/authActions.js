@@ -8,12 +8,12 @@ import { GET_ERRORS, SET_CURRENT_USER } from "./types";
 import {message} from 'antd';
 
 // Register User
-export const registerUser = (userData, history)=> (dispatch) =>{
+export const registerUser = (userData, history)=> async (dispatch) =>{
     // we dont have to do http://5000 cus of the proxy value we included in our package.json
     // http://ec2-52-221-183-90.ap-southeast-1.compute.amazonaws.com:443/
     const url = "http://ec2-52-221-183-90.ap-southeast-1.compute.amazonaws.com:443/api/users";
     console.log(url);
-     axios.post(url, userData)
+    await axios.post(url, userData)
         .then(res => {
             // history.push('/login')
             message.success("Signed up successfully")
@@ -32,19 +32,21 @@ export const registerUser = (userData, history)=> (dispatch) =>{
 };
 
 // Login - Get user token
-export const loginUser = (userData, history) => (dispatch) => {
+export const loginUser = (userData, history) => async (dispatch) => {
     const url = "http://ec2-52-221-183-90.ap-southeast-1.compute.amazonaws.com:443/api/users/login";
 
-    axios.post(url, userData)
+    await axios.post(url, userData)
         .then(res => {
             console.log("res is:"+ res);
             console.log( res);
             //Save to localStorage
             const { token } = res.data;
-            // Set token to localStorage
+            // Set token t  o localStorage
             localStorage.setItem('jwtToken', token);
             // Set token to Auth header. Apply Authorization token to header to every request
             setAuthToken(token);
+            console.log(`Token from auth actions is:`);
+            console.log(token);
             // the token includes user info but it is encoded
             // to decode we use jwt-decode
             //Decode token to get user data

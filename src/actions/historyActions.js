@@ -1,35 +1,33 @@
 import axios from 'axios';
 
-import {GET_PROFILE, PROFILE_LOADING, GET_ERRORS, CLEAR_CURRENT_PROFILE, CLEAR_ERRORS} from "./types";
+import {GET_HISTORY, PROFILE_LOADING, GET_ERRORS, CLEAR_CURRENT_PROFILE, CLEAR_ERRORS} from "./types";
 import {message} from 'antd';
 
 // Get current profile
-export const getCurrentProfile = (id) =>async dispatch => {
+export const getUserHistory = (id) =>async dispatch => {
     // dispatch(setProfileLoading());  // set loading to true
-
-    const url = `http://ec2-52-221-183-90.ap-southeast-1.compute.amazonaws.com:443/api/users/${id}`;
+    const url = `http://ec2-52-221-183-90.ap-southeast-1.compute.amazonaws.com:443/api/users/${id}/history`;
     console.log(`id is ${id}`);
     console.log(url);
     console.log(`Token from profile actions is:`);
     console.log();
     axios.defaults.headers.common['Authorization'] = "Bearer "+axios.defaults.headers.common['Authorization'];
-   await axios.get(url)
+    await axios.get(url)
         .then(res =>{
             console.log(`res is:`);
             console.log(res);
-            console.log(res.data.data);
             dispatch({
-                type: GET_PROFILE,
+                type: GET_HISTORY,
                 payload: res.data.data
             });
             dispatch(clearErrors());
 
-            message.success("Got current profile")
+            message.success("Got users history")
         })
         .catch(err => {
             dispatch({
-                type: GET_PROFILE,
-                payload: {}
+                type: GET_HISTORY,
+                payload: []
             });
             // dispatch({
             //     type: GET_ERRORS,  //this call test dispatch. to dispsatch to our reducer
@@ -40,53 +38,41 @@ export const getCurrentProfile = (id) =>async dispatch => {
     axios.defaults.headers.common['Authorization'] =  axios.defaults.headers.common['Authorization'].slice(7);
 };
 // update profile
-export const updateProfile = (profileData, id, history) =>  async dispatch => {
-    // dispatch(clearErrors());
-
+export const updateHistory = (locationData, id, history) => async dispatch => {
     // dispatch(setProfileLoading());  // set loading to true
+    // const product_id_list = ['pid1234', 'pid1235']
+
+    // const bodyFormData = new FormData();
+    //
+    // locationData.forEach((item) => {
+    //     bodyFormData.append('locationData[]', item);
+    // });
+    // console.log(bodyFormData);
+
     const url = "http://ec2-52-221-183-90.ap-southeast-1.compute.amazonaws.com:443";
     axios.defaults.headers.common['Authorization'] = "Bearer "+axios.defaults.headers.common['Authorization'];
 
-    await axios.put(`${url}/api/users/${id}`, profileData)
+    await axios.post(`${url}/api/users/${id}/history`, locationData)
         .then(res => {
-            console.log(`res is:`);
+            console.log(`update res is:`);
             console.log(res);
-            getCurrentProfile(id);
+            getUserHistory(id);
             history.push('/');
             dispatch(clearErrors());
 
-            message.success("Profile Updated Successfully")
+            message.success("History Updated Successfully")
         })
         .catch(err => {
+            console.log(`Update err is:`);
             console.log(err);
             dispatch({
-                type: GET_PROFILE,
-                payload: {}
+                type: GET_HISTORY,
+                payload: []
             });
-            // dispatch({
-            //     type: GET_ERRORS,  //this call test dispatch. to dispsatch to our reducer
-            //     // payload: {}//sets payload to errors coming from server
-            //     payload: err.response.data //sets payload to errors coming from server
-            // });
         });
     axios.defaults.headers.common['Authorization'] =  axios.defaults.headers.common['Authorization'].slice(7);
 
 };
-
-
-// Profile loading
-// export const setProfileLoading = () =>{
-//   return{
-//       type: PROFILE_LOADING
-//   }
-// };
-
-// Clear Profile
-// export const clearCurrentProfile = () =>{
-//   return{
-//       type: CLEAR_CURRENT_PROFILE
-//   }
-// };
 // Clear errors
 export const clearErrors = () => {
     return {

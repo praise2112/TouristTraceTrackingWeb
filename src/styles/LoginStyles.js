@@ -39,6 +39,14 @@ const styles =  theme =>  ({
         color: '#fff',
         backgroundColor: green[500],
     },
+    halfWidth_x:{
+        width: '45%', // Fix IE 11 issue.
+        // marginRight: '5%'
+    },
+    halfWidth_x2:{
+        width: '45%', // Fix IE 11 issue.
+        marginLeft: '10%'
+    }
 });
 
 export default styles;

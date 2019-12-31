@@ -36,11 +36,13 @@ class MapContainer extends Component {
                     <div>
                     <Link to={'/login'} onClick={e => e.stopPropagation()}> <span>Login</span></Link>
                     <Link to={'/register'} onClick={e => e.stopPropagation()}> <span>Register</span></Link>
-                    <Link to={'/history/1'} onClick={e => e.stopPropagation()}> <span>History</span></Link>
                     </div>
                         )
                     : <div>
                         <Link to={'#'} onClick={this.onLogoutClick}> <span>LogOut</span></Link>
+                        <Link to={'/history/1'} onClick={e => e.stopPropagation()}> <span>History</span></Link>
+                        <Link to={'/profile'} onClick={e => e.stopPropagation()}> <span>Profile</span></Link>
+
 
                     </div>}
 

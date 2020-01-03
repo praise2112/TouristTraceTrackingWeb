@@ -3,6 +3,21 @@ import {Link} from "react-router-dom";
 import * as PropTypes from "prop-types";
 import { connect } from 'react-redux'
 import { logoutUser } from "../actions/authActions";
+import Navbar from './layout/Navbar';
+import Icon from "@material-ui/core/Icon";
+import styles from '../styles/LoginStyles';
+
+// import '../styles/css/component.css'
+// import '../styles/css/default.css';
+import '../styles/hovicon.css';
+import {loadCSS} from "fg-loadcss";
+
+import {deepOrange, green, pink} from "@material-ui/core/colors";
+
+import Avatar from "./auth/Login";
+import {withStyles} from "@material-ui/core";
+// import '../styles/js/component.js';
+// import '../styles/js/modernizr.custom.js';
 
 
 class MapContainer extends Component {
@@ -23,28 +38,26 @@ class MapContainer extends Component {
         if(this.props.auth.isAuthenticated){
             this.props.history.push('/')
         }
+
     }
     render() {
         const {isAuthenticated, user} = this.props.auth;
+        const {classes} = this.props;
 
         return (
 
             <div>
+                <Navbar
+                    isLoggedIn={isAuthenticated}
+                    logOutUser={this.props.logoutUser}
+
+                />
+
+
+
                 <p>Map container</p>
 
-                {!isAuthenticated ?(
-                    <div>
-                    <Link to={'/login'} onClick={e => e.stopPropagation()}> <span>Login</span></Link>
-                    <Link to={'/register'} onClick={e => e.stopPropagation()}> <span>Register</span></Link>
-                    </div>
-                        )
-                    : <div>
-                        <Link to={'#'} onClick={this.onLogoutClick}> <span>LogOut</span></Link>
-                        <Link to={'/history/1'} onClick={e => e.stopPropagation()}> <span>History</span></Link>
-                        <Link to={'/profile'} onClick={e => e.stopPropagation()}> <span>Profile</span></Link>
 
-
-                    </div>}
 
 
             </div>
@@ -60,4 +73,4 @@ MapContainer.propTypes ={
 const mapStateToProps = (state) =>({
     auth: state.auth,  //the name auth in state.auth comes from our root reducer(index)
 });
-export default   connect(mapStateToProps, { logoutUser})(MapContainer);
+export default   connect(mapStateToProps, { logoutUser})(withStyles(styles, {withTheme: true})(MapContainer));

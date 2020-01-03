@@ -6,3 +6,7 @@
 /*.App-link {*/
   /*color: #61dafb;*/
 /*}*/
+
+a{
+    color: inherit !important;
+}

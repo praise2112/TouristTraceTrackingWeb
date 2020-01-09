@@ -1,20 +1,39 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {withStyles} from "@material-ui/core";
-import styles from "../styles/LoginStyles";
+import styles from "../styles/HistoryStyles";
 import * as PropTypes from "prop-types";
 import {getUserHistory, updateHistory} from "../actions/historyActions";
 import {message} from "antd";
-import Moment from "./Profile";
+import Moment from 'moment';
+import clsx from 'clsx';
+
+
 import {withRouter} from "react-router-dom";
 import isEmpty from "../validation/is-empty";
+import GoogleMapReact from 'google-map-react';
+import classNames from "classnames";
+import MapMarker from "./MapMarker";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Radio from "@material-ui/core/Radio";
 
 class History extends Component {
     constructor(props) {
         super(props);
         this.state = {
             errors: {},
-            hist: []
+            hist: [],
+            zoom: 18,
+            currentLocation:{
+                lat: 21.0278,
+                lng: 105.8342,
+                arrival_at: null,
+                leave_at: null
+            },
+            histSelected: null
         };
         this.handleSubmit = this.handleSubmit.bind(this);
 
@@ -46,10 +65,14 @@ class History extends Component {
         //     })
         // }
     }
-    handleChange(evt){
-        this.setState({
-            [evt.target.name]: evt.target.value
-        });
+    handleClick(hist, index){
+        let pos = {
+            lat: hist.latitude,
+            lng: hist.longitude,
+            arrival_at: Moment(hist.arrival_at).format('YYYY-MM-DD HH:mm:ss'),
+            leave_at: Moment(hist.leave_at).format('YYYY-MM-DD HH:mm:ss'),
+        };
+        this.setState({currentLocation: pos, histSelected: index })
     }
 
     handleSubmit(evt){
@@ -73,10 +96,10 @@ class History extends Component {
         // we dont have to do http://5000 cus of the proxy value we included in our package.json
         let newHist = [
             {
-                lat: "123.23",
-                long: "623.32",
-                arrival_time: "2019-12-17 00:04:50",
-                leave_time: "2019-12-17 00:08:50"
+                latitude: "123.23",
+                longitude: "623.32",
+                arrival_at: "2019-12-17 00:04:50",
+                leave_at: "2019-12-17 00:08:50"
             }
         ];
         const user_id = this.props.auth.user.result.id;
@@ -85,21 +108,50 @@ class History extends Component {
 
         console.log(`Handle submit`);
     }
+
     render() {
-        const {hist} = this.state;
+        const {hist, currentLocation, zoom, histSelected} = this.state;
+        const {classes} = this.props;
         let history=null;
         if(!isEmpty(hist)) {
             history = hist.hist.map((hist,index) => (
-                    <div key={index}>{hist.latitude} -- {hist.longitude}</div>
+                    <div key={index} onClick={()=>this.handleClick(hist, index)} className={classNames( classes.hist, {
+                        [classes.selected]: index === histSelected
+                    })} >
+                        Latitude: {hist.latitude}°    Longitude: {hist.longitude}°
+                    </div>
                 ));
         }
 
         return (
-            <div>
+            <div style={{ width: '100%', maxWidth: "100%", overflow: "hidden"}} className={classes.container}>
+                <section className={classes.historyStyle} style={{display: "inline-block"}}>
+                    <p  className={classes.yourHistory}>Your History</p>
+                    {history}
+                    <button onClick={this.handleSubmit} >Add history</button>
+                </section>
 
-                <p>History component</p>
-                {history}
-                <button onClick={this.handleSubmit} >Add history</button>
+                <section  className={ classes.mapStyle} style={{display: "inline-block"}}>
+                    {currentLocation.arrival_at !== null && currentLocation.arrival_at !== undefined && currentLocation.arrival_at !== "Invalid date" ? (
+                        <div style={{marginBottom: "0.2em", color: "white", textAlign: "center", fontSize: "1.5em"}}>You arrived at {currentLocation.arrival_at} and left {currentLocation.leave_at}</div>
+                        ) : null}
+                <GoogleMapReact
+                    className={classes.mapStyle}
+                    bootstrapURLKeys={{
+                        key: process.env.REACT_APP_GOOGLE_KEY,
+                        libraries: ['places', 'directions']
+                    }}
+                    center={{ lat: currentLocation.lat, lng: currentLocation.lng }}
+                    defaultZoom={zoom}
+                    // defaultCenter={{ lat: currentLocation.lat, lng: currentLocation.lng }}
+                    yesIWantToUseGoogleMapApiInternals={true} // "maps" is the mapApi. Bad naming but that's their library.
+                >
+                            <MapMarker
+                                       lat={currentLocation.lat}
+                                       lng={currentLocation.lng} />
+
+                </GoogleMapReact>
+            </section>
             </div>
         );
     }
@@ -111,7 +163,7 @@ History.propTypes ={
 
     errors: PropTypes.object.isRequired,
     profile: PropTypes.object.isRequired,
-    hist: PropTypes.array.isRequired,
+    // hist: PropTypes.array.isRequired,
     getUserHistory: PropTypes.func.isRequired,
     updateHistory: PropTypes.func.isRequired,
     // updateProfile: PropTypes.func.isRequired

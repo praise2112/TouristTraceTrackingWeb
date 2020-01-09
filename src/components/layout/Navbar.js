@@ -36,6 +36,8 @@ import useSliderState from "../../hooks/useSliderState";
 import Avatar from "@material-ui/core/Avatar";
 import useSelectorState from "../../hooks/useSelectorState";
 import {Link, NavLink} from "react-router-dom";
+import useToggleState from "../../hooks/useToggleState";
+import MapAutoComplete from "../MapAutoComplete";
 
 
 
@@ -228,98 +230,105 @@ import {Link, NavLink} from "react-router-dom";
         </div>
     );
     const menuRef = React.useRef(null);
-     const [value, handleChange, reset] = useSliderState(0);
-    const recommendIcon =  (
+     const [value, handleChange, reset] = useSliderState(30, props.onSelectOption);
+     // const [recommendToggleValue, toggleRecommend] = useToggleState();
+     let bool = false;
+     const toggleRecommend = ()=>{
+       bool = !bool ;
+         return bool
+     };
+
+     const recommendIcon =  (
         <Tooltip title={"Recommendations"} >
-            <IconButton aria-label="recommendations" color="inherit" className={classes.removeButtonBorder}>
-                <i className={"hovicon effect-8 mini"  }   >
-                    <Icon className={"far fa-lightbulb " }  style={{ fontSize: "1em", width: "1.5em", paddingTop:"0.05em"}} onClick={()=>menuRef.current.click()}/>
+            <IconButton aria-label="recommendations" color="inherit" className={classes.removeButtonBorder} >
+                <i className={"hovicon effect-8 mini"  }  onClick={()=>{props.onSelectOption(toggleRecommend(), null, null, null); menuRef.current.click()} } >
+                    <Icon className={"far fa-lightbulb " }  style={{ fontSize: "1em", width: "1.5em", paddingTop:"0.05em"}} />
                 </i>
 
             </IconButton>
      </Tooltip>
     );
-     const [selectValue, handleChangeSelector, resetSelector, selectName] = useSelectorState(recommendIcon, "recommend");
+     const [selectValue, handleChangeSelector, resetSelector] = useSelectorState(recommendIcon);
 
      const restaurantIcon =  (
         <Tooltip title={"Restaurants"} >
             <IconButton aria-label="Restaurants" color="inherit" style={{padding: 0, paddingBottom:"2.6em"}} className={classes.removeButtonBorder + " hovicon effect-8 mini"}>
-                <Avatar className={classes.avatar2 } ><RestaurantIcon onClick={()=>menuRef.current.click()} /></Avatar>
+                <Avatar className={classes.avatar2 } ><RestaurantIcon onClick={()=>{menuRef.current.click(); props.onSelectOption(true,null, null, null)}} /></Avatar>
             </IconButton>
         </Tooltip>
     );
     const hotelIcon =  (
         <Tooltip title={"Hotels" } >
             <IconButton aria-label="Hotels" color="inherit" style={{padding: 0, paddingBottom:"2.6em"}} className={classes.removeButtonBorder  + " hovicon effect-8 mini"}>
-                <Avatar className={classes.avatar2}><HotelIcon  onClick={()=>menuRef.current.click()} /></Avatar>
+                <Avatar className={classes.avatar2}><HotelIcon  onClick={()=>{menuRef.current.click(); props.onSelectOption(true,null, null, null)}} /></Avatar>
             </IconButton>
         </Tooltip>
     );
     const cafeIcon =  (
         <Tooltip title={"Cafe"} >
             <IconButton aria-label="Cafe" color="inherit" style={{padding: 0, paddingBottom:"2.6em"}}  className={classes.removeButtonBorder  + " hovicon effect-8 mini"}>
-                <Avatar className={classes.avatar2}><LocalCafeIcon onClick={()=>menuRef.current.click()}/></Avatar>
+                <Avatar className={classes.avatar2}><LocalCafeIcon onClick={()=>{menuRef.current.click(); props.onSelectOption(true,null, null, null)}}/></Avatar>
             </IconButton>
         </Tooltip>
     );
     const museumIcon =  (
         <Tooltip title={"Museum"} >
             <IconButton aria-label="Museum" color="inherit" style={{padding: 0, paddingBottom:"2.6em"}} className={classes.removeButtonBorder  + " hovicon effect-8 mini"}>
-                <Avatar className={classes.avatar2}><MuseumIcon onClick={()=>menuRef.current.click()}/></Avatar>
+                <Avatar className={classes.avatar2}><MuseumIcon onClick={()=>{menuRef.current.click(); props.onSelectOption(true,null, null, null)}}/></Avatar>
             </IconButton>
         </Tooltip>
     );
     const gymIcon =  (
         <Tooltip title={"Gym"} >
             <IconButton aria-label="Gym" color="inherit" style={{padding: 0, paddingBottom:"2.6em"}} className={classes.removeButtonBorder+ " hovicon effect-8 mini"}>
-                <Avatar  className={classes.avatar2}><Icon className={"fas fa-dumbbell "}  style={{color: "white" }}  onClick={()=>menuRef.current.click()}/></Avatar>
+                <Avatar  className={classes.avatar2}><Icon className={"fas fa-dumbbell "}  style={{color: "white" }}  onClick={()=>{menuRef.current.click(); props.onSelectOption(true,null, null, null)}}/></Avatar>
             </IconButton>
         </Tooltip>
     );
     const zooIcon =  (
         <Tooltip title={"Zoo"} >
             <IconButton aria-label="Zoo" color="inherit" style={{padding: 0, paddingBottom:"2.6em"}} className={classes.removeButtonBorder+ " hovicon effect-8 mini"}>
-                <Avatar className={classes.avatar2}><Icon className={"fas fa-paw"}  style={{color: "white"}} onClick={()=>menuRef.current.click()}/></Avatar>
+                <Avatar className={classes.avatar2}><Icon className={"fas fa-paw"}  style={{color: "white"}} onClick={()=>{menuRef.current.click(); props.onSelectOption(true,null, null, null)}}/></Avatar>
             </IconButton>
         </Tooltip>
     );
     const spaIcon =  (
         <Tooltip title={"Spa"} >
             <IconButton aria-label="Spa" color="inherit" style={{padding: 0, paddingBottom:"2.6em"}} className={classes.removeButtonBorder+ " hovicon effect-8 mini"}>
-                <Avatar className={classes.avatar2}><SpaIcon onClick={()=>menuRef.current.click()}/></Avatar>
+                <Avatar className={classes.avatar2}><SpaIcon onClick={()=>{menuRef.current.click(); props.onSelectOption(true,null, null, null)}}/></Avatar>
             </IconButton>
         </Tooltip>
     );
     const bankIcon =  (
         <Tooltip title={"Banks"} >
             <IconButton aria-label="Banks" color="inherit" style={{padding: 0, paddingBottom:"2.6em"}} className={classes.removeButtonBorder+ " hovicon effect-8 mini"}>
-                <Avatar className={classes.avatar2}><AccountBalanceIcon onClick={()=>menuRef.current.click()} /></Avatar>
+                <Avatar className={classes.avatar2}><AccountBalanceIcon onClick={()=>{menuRef.current.click(); props.onSelectOption(true,null, null, null)}} /></Avatar>
             </IconButton>
         </Tooltip>
     ); const gasIcon =  (
          <Tooltip title={"Gas Stations"} >
              <IconButton aria-label="Gas Stations" color="inherit" style={{padding: 0, paddingBottom:"2.6em"}} className={classes.removeButtonBorder+ " hovicon effect-8 mini"}>
-                 <Avatar className={classes.avatar2}><LocalGasStationIcon onClick={()=>menuRef.current.click()} /></Avatar>
+                 <Avatar className={classes.avatar2}><LocalGasStationIcon onClick={()=>{menuRef.current.click(); props.onSelectOption(true, null, null, null)}} /></Avatar>
              </IconButton>
          </Tooltip>
     ); const parkIcon =  (
          <Tooltip title={" Parking Lots"} >
              <IconButton aria-label="Parking Lots" color="inherit" style={{padding: 0}} className={classes.removeButtonBorder+ " hovicon effect-8 mini"}>
-                 <Avatar className={classes.avatar2}><LocalParkingIcon onClick={()=>menuRef.current.click()}/></Avatar>
+                 <Avatar className={classes.avatar2}><LocalParkingIcon onClick={()=>{menuRef.current.click(); props.onSelectOption(true,null, null, null)}}/></Avatar>
              </IconButton>
          </Tooltip>
     );
     const groceryIcon =  (
     <Tooltip title={" Groceries"} >
         <IconButton aria-label=" Groceries" color="inherit" style={{padding: 0, paddingBottom:"2.6em"}} className={classes.removeButtonBorder+ " hovicon effect-8 mini"}>
-            <Avatar className={classes.avatar2}><LocalGroceryStoreIcon onClick={()=>menuRef.current.click()}/></Avatar>
+            <Avatar className={classes.avatar2}><LocalGroceryStoreIcon onClick={()=>{menuRef.current.click(); props.onSelectOption(true,null, null, null)}}/></Avatar>
         </IconButton>
     </Tooltip>
     );
     const postIcon =  (
     <Tooltip title={" Post Offices"} >
         <IconButton aria-label="recommendations" color="inherit" style={{padding: 0, paddingBottom:"2.6em"}} className={classes.removeButtonBorder+ " hovicon effect-8 mini"}>
-            <Avatar className={classes.avatar2}><LocalHospitalIcon onClick={()=>menuRef.current.click()}/></Avatar>
+            <Avatar className={classes.avatar2}><LocalHospitalIcon onClick={()=>{menuRef.current.click(); props.onSelectOption(true,null, null, null)}}/></Avatar>
         </IconButton>
     </Tooltip>
     );
@@ -335,6 +344,7 @@ import {Link, NavLink} from "react-router-dom";
             margin={80}
             className={classes.motionMenu}
 
+
         >
             {/*invisible toggler*/}
             <div style={{display: "none"}}>
@@ -344,33 +354,33 @@ import {Link, NavLink} from "react-router-dom";
             {/*items*/}
             <div >
                 <Tooltip title={"Restaurants"} >
-                    <IconButton aria-label="Restaurants" color="inherit" onClick={(e)=>handleChangeSelector(restaurantIcon, "restaurant")} className={classes.removeButtonBorder}>
-                <Avatar className={classes.avatar}><RestaurantIcon onClick={()=>menuRef.current.click()} /></Avatar>
+                    <IconButton aria-label="Restaurants" color="inherit" onClick={(e)=>handleChangeSelector(restaurantIcon)} className={classes.removeButtonBorder}>
+                <Avatar className={classes.avatar}><RestaurantIcon onClick={()=>{menuRef.current.click(); props.onSelectOption(false,"restaurant", null, null)}} /></Avatar>
                     </IconButton>
                 </Tooltip>
                 <Tooltip title={"Hotels" } >
-                    <IconButton aria-label="Hotels" color="inherit" onClick={(e)=>handleChangeSelector(hotelIcon, "lodging")} className={classes.removeButtonBorder}>
-                <Avatar className={classes.avatar}><HotelIcon onClick={()=>menuRef.current.click()}/></Avatar>
+                    <IconButton aria-label="Hotels" color="inherit" onClick={(e)=>handleChangeSelector(hotelIcon)} className={classes.removeButtonBorder}>
+                <Avatar className={classes.avatar}><HotelIcon onClick={()=>{menuRef.current.click(); props.onSelectOption(false, "lodging",null, null)}}/></Avatar>
                     </IconButton>
                 </Tooltip>
                 <Tooltip title={"Cafe"} >
-                    <IconButton aria-label="Cafe" color="inherit" onClick={(e)=>handleChangeSelector(cafeIcon, "cafe")} className={classes.removeButtonBorder}>
-                <Avatar className={classes.avatar}><LocalCafeIcon onClick={()=>menuRef.current.click()}/></Avatar>
+                    <IconButton aria-label="Cafe" color="inherit" onClick={(e)=>handleChangeSelector(cafeIcon)} className={classes.removeButtonBorder}>
+                <Avatar className={classes.avatar}><LocalCafeIcon onClick={()=>{menuRef.current.click(); props.onSelectOption(false,"cafe", null, null)}}/></Avatar>
                     </IconButton>
                 </Tooltip>
                 <Tooltip title={"Museum"} >
-                    <IconButton aria-label="Museum" color="inherit" onClick={(e)=>handleChangeSelector(museumIcon, "museum")} className={classes.removeButtonBorder}>
-                <Avatar className={classes.avatar}><MuseumIcon onClick={()=>menuRef.current.click()}/></Avatar>
+                    <IconButton aria-label="Museum" color="inherit" onClick={(e)=>handleChangeSelector(museumIcon)} className={classes.removeButtonBorder}>
+                <Avatar className={classes.avatar}><MuseumIcon onClick={()=>{menuRef.current.click(); props.onSelectOption(false,"museum", null, null)}}/></Avatar>
                     </IconButton>
                 </Tooltip>
                 <Tooltip title={"Zoo"} >
-                    <IconButton aria-label="Zoo" color="inherit" onClick={(e)=>handleChangeSelector(zooIcon, "zoo")} className={classes.removeButtonBorder}>
-                <Avatar className={classes.avatar}><Icon className={"fas fa-paw"}  style={{color: "white"}} onClick={()=>menuRef.current.click()}/></Avatar>
+                    <IconButton aria-label="Zoo" color="inherit" onClick={(e)=>handleChangeSelector(zooIcon)} className={classes.removeButtonBorder}>
+                <Avatar className={classes.avatar}><Icon className={"fas fa-paw"}  style={{color: "white"}} onClick={()=>{menuRef.current.click(); props.onSelectOption(false,"zoo", null, null)}}/></Avatar>
                     </IconButton>
                 </Tooltip>
                 <Tooltip title={"Spa"} >
-                    <IconButton aria-label="Spa" color="inherit" onClick={(e)=>handleChangeSelector(spaIcon, "spa")} className={classes.removeButtonBorder}>
-                <Avatar className={classes.avatar}><SpaIcon onClick={()=>menuRef.current.click()}/></Avatar>
+                    <IconButton aria-label="Spa" color="inherit" onClick={(e)=>handleChangeSelector(spaIcon)} className={classes.removeButtonBorder}>
+                <Avatar className={classes.avatar}><SpaIcon onClick={()=>{menuRef.current.click(); props.onSelectOption(false,"spa", null, null)}}/></Avatar>
                     </IconButton>
                 </Tooltip>
 
@@ -378,33 +388,33 @@ import {Link, NavLink} from "react-router-dom";
             {/*Item row2*/}
             <div>
                 <Tooltip title={"Gym"} >
-                    <IconButton aria-label="Gym" color="inherit" onClick={(e)=>handleChangeSelector(gymIcon, "gym")} className={classes.removeButtonBorder}>
-                        <Avatar  className={classes.avatar}><Icon className={"fas fa-dumbbell "}  style={{color: "white" }}  onClick={()=>menuRef.current.click()}/></Avatar>
+                    <IconButton aria-label="Gym" color="inherit" onClick={(e)=>handleChangeSelector(gymIcon)} className={classes.removeButtonBorder}>
+                        <Avatar  className={classes.avatar}><Icon className={"fas fa-dumbbell "}  style={{color: "white" }}  onClick={()=>{menuRef.current.click(); props.onSelectOption(false, "gym", null, null)}}/></Avatar>
                     </IconButton>
                 </Tooltip>
                 <Tooltip title={"Banks"} >
-                    <IconButton aria-label="Banks" color="inherit" onClick={(e)=>handleChangeSelector(bankIcon, "bank")} className={classes.removeButtonBorder}>
-                <Avatar className={classes.avatar}><AccountBalanceIcon onClick={()=>menuRef.current.click()} /></Avatar>
+                    <IconButton aria-label="Banks" color="inherit" onClick={(e)=>handleChangeSelector(bankIcon)} className={classes.removeButtonBorder}>
+                <Avatar className={classes.avatar}><AccountBalanceIcon onClick={()=>{menuRef.current.click(); props.onSelectOption(false, "bank",null, null)}} /></Avatar>
                     </IconButton>
                 </Tooltip>
                 <Tooltip title={"Gas Stations"} >
-                    <IconButton aria-label="Gas Stations" color="inherit" onClick={(e)=>handleChangeSelector(gasIcon, "gas_station")} className={classes.removeButtonBorder}>
-                <Avatar className={classes.avatar}><LocalGasStationIcon onClick={()=>menuRef.current.click()} /></Avatar>
+                    <IconButton aria-label="Gas Stations" color="inherit" onClick={(e)=>handleChangeSelector(gasIcon)} className={classes.removeButtonBorder}>
+                <Avatar className={classes.avatar}><LocalGasStationIcon onClick={()=>{menuRef.current.click(); props.onSelectOption(false,"gas_station", null, null)}} /></Avatar>
                     </IconButton>
                 </Tooltip>
                 <Tooltip title={" Parking Lots"} >
-                    <IconButton aria-label="Parking Lots" color="inherit" onClick={(e)=>handleChangeSelector(parkIcon, "parking")} className={classes.removeButtonBorder}>
-                <Avatar className={classes.avatar}><LocalParkingIcon onClick={()=>menuRef.current.click()}/></Avatar>
+                    <IconButton aria-label="Parking Lots" color="inherit" onClick={(e)=>handleChangeSelector(parkIcon)} className={classes.removeButtonBorder}>
+                <Avatar className={classes.avatar}><LocalParkingIcon onClick={()=>{menuRef.current.click(); props.onSelectOption(false,"parking", null, null)}}/></Avatar>
                     </IconButton>
                 </Tooltip>
                 <Tooltip title={" Groceries"} >
-                    <IconButton aria-label=" Groceries" color="inherit" onClick={(e)=>handleChangeSelector(groceryIcon, "grocery_or_supermarket")} className={classes.removeButtonBorder}>
-                <Avatar className={classes.avatar}><LocalGroceryStoreIcon onClick={()=>menuRef.current.click()}/></Avatar>
+                    <IconButton aria-label=" Groceries" color="inherit" onClick={(e)=>handleChangeSelector(groceryIcon)} className={classes.removeButtonBorder}>
+                <Avatar className={classes.avatar}><LocalGroceryStoreIcon onClick={()=>{menuRef.current.click(); props.onSelectOption(false,"grocery_or_supermarket", null, null)}}/></Avatar>
                     </IconButton>
                 </Tooltip>
                 <Tooltip title={" Post Offices"} >
-                    <IconButton aria-label="Post Offices" color="inherit" onClick={(e)=>handleChangeSelector(postIcon, "post_office")} className={classes.removeButtonBorder}>
-                <Avatar className={classes.avatar}><LocalHospitalIcon onClick={()=>menuRef.current.click()}/></Avatar>
+                    <IconButton aria-label="Post Offices" color="inherit" onClick={(e)=>handleChangeSelector(postIcon)} className={classes.removeButtonBorder}>
+                <Avatar className={classes.avatar}><LocalHospitalIcon onClick={()=>{menuRef.current.click(); props.onSelectOption(false, "post_office",null, null)}}/></Avatar>
                     </IconButton>
                 </Tooltip>
             </div>
@@ -439,17 +449,28 @@ import {Link, NavLink} from "react-router-dom";
 
 
                     <div className={classes.search}>
-                        <div className={classes.searchIcon}>
-                            <SearchIcon />
-                        </div>
-                        <InputBase
+                        {/*<div className={classes.searchIcon}>*/}
+
+                            {/*<SearchIcon />*/}
+                        {/*</div>*/}
+                        <MapAutoComplete
+                            autoCompleteService={props.autoCompleteService}
+                            geoCoderService={props.geoCoderService}
+                            singaporeLatLng={props.singaporeLatLng}
+                            markerName={props.name}
+                            addMarker={props.addMarker}
                             placeholder="Search…"
-                            classes={{
-                                root: classes.inputRoot,
-                                input: classes.inputInput,
-                            }}
-                            inputProps={{ 'aria-label': 'search' }}
+                            onSelectOption={props.onSelectOption}
+
                         />
+                        {/*<InputBase*/}
+                            {/*placeholder="Search…"*/}
+                            {/*classes={{*/}
+                                {/*root: classes.inputRoot,*/}
+                                {/*input: classes.inputInput,*/}
+                            {/*}}*/}
+                            {/*inputProps={{ 'aria-label': 'search' }}*/}
+                        {/*/>*/}
                     </div>
                     {props.isLoggedIn ? authLinks : guestLinks}
 

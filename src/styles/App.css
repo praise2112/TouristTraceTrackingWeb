@@ -7,6 +7,22 @@
   /*color: #61dafb;*/
 /*}*/
 
+body{
+    height: 100vh;
+    width: 100vw;
+    /*max-width: 1200px;*/
+}
+.ant-input{
+    border: 0 none transparent !important;
+}
+.ant-select-selection__placeholder, .ant-select-search__field__placeholder{
+    color: white !important;
+}
+.ant-select-selection{
+    background-color: transparent !important;
+}
+
 a{
     color: inherit !important;
+
 }

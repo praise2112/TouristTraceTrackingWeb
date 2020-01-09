@@ -11,14 +11,12 @@ import HotelIcon from '@material-ui/icons/Hotel';
 import LocalCafeIcon from '@material-ui/icons/LocalCafe';
 import Icon from "@material-ui/core/Icon";
 
-export default (initialVal, initalVal2) => {
+export default (initialVal) => {
 
     const [value, setValue] = useState(initialVal);
-    const [name, setName] = useState(initalVal2);
 
-    const handleChange = (Icon, name )=>{
+    const handleChange = (Icon)=>{
         setValue(Icon);
-        setName(name)
     };
     const reset = ()=>{
         setValue(0);
@@ -26,7 +24,6 @@ export default (initialVal, initalVal2) => {
     let selectValue = value;
     let handleChangeSelector = handleChange;
     let resetSelector = reset;
-    let selectName = name;
-    return [selectValue,  handleChangeSelector, resetSelector, selectName];
+    return [selectValue,  handleChangeSelector, resetSelector];
 }
 

@@ -6,7 +6,7 @@ import {message} from 'antd';
 // Get current profile
 export const getUserHistory = (id) =>async dispatch => {
     // dispatch(setProfileLoading());  // set loading to true
-    const url = `http://ec2-52-221-183-90.ap-southeast-1.compute.amazonaws.com:443/api/users/${id}/history`;
+    const url = `http://34.87.80.154:443/api/users/${id}/history`;
     console.log(`id is ${id}`);
     console.log(url);
     console.log(`Token from profile actions is:`);
@@ -49,7 +49,7 @@ export const updateHistory = (locationData, id, history) => async dispatch => {
     // });
     // console.log(bodyFormData);
 
-    const url = "http://ec2-52-221-183-90.ap-southeast-1.compute.amazonaws.com:443";
+    const url = "http://34.87.80.154:443";
     axios.defaults.headers.common['Authorization'] = "Bearer "+axios.defaults.headers.common['Authorization'];
 
     await axios.post(`${url}/api/users/${id}/history`, locationData)

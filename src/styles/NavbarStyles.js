@@ -1,10 +1,13 @@
 import {fade} from "@material-ui/core";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {deepOrange, blue} from "@material-ui/core/colors";
+import Navbar from "../components/MapContainer";
+import React from "react";
 
 const useStyles =makeStyles( theme=>({
+
     grow: {
-        flexGrow: 1,
+        flexGrow: 1
     },
     menuButton: {
         marginRight: theme.spacing(2),
@@ -115,6 +118,11 @@ const useStyles =makeStyles( theme=>({
     removeLinkColor:{
         textDecoration: "none",
         color: "inherit !important" ,
+    },
+    "span input":{
+        border: "none !important",
+        borderWidth: "0 !important",
+        borderColor: "none !important"
     }
 }));
 

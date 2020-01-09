@@ -11,11 +11,12 @@ import {message} from 'antd';
 export const registerUser = (userData, history)=> async (dispatch) =>{
     // we dont have to do http://5000 cus of the proxy value we included in our package.json
     // http://ec2-52-221-183-90.ap-southeast-1.compute.amazonaws.com:443/
-    const url = "http://ec2-52-221-183-90.ap-southeast-1.compute.amazonaws.com:443/api/users";
+    const url = "http://34.87.80.154:443/api/users";
     console.log(url);
     await axios.post(url, userData)
         .then(res => {
             // history.push('/login')
+            loginUser(userData, history);
             message.success("Signed up successfully")
         })     // redirect to login
         .catch(err => {
@@ -33,7 +34,7 @@ export const registerUser = (userData, history)=> async (dispatch) =>{
 
 // Login - Get user token
 export const loginUser = (userData, history) => async (dispatch) => {
-    const url = "http://ec2-52-221-183-90.ap-southeast-1.compute.amazonaws.com:443/api/users/login";
+    const url = "http://34.87.80.154:443/api/users/login";
 
     await axios.post(url, userData)
         .then(res => {

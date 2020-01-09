@@ -89,7 +89,7 @@ class Login extends Component {
         const {email, username, password, loading} = this.state;
 
         return (
-            <Container component="main" maxWidth="xs">
+            <Container component="main" maxWidth="xs" className={classes.container}>
                 <CssBaseline />
                 <div className={classes.paper}>
                     <Avatar className={classes.avatar}>

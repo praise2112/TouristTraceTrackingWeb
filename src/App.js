@@ -11,12 +11,13 @@ import { Provider } from 'react-redux';
 import store from './store';
 
 import './styles/App.css';
+
 import MapContainer from "./components/MapContainer";
 import History from './components/History';
 import Profile from './components/Profile';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/antd/dist/antd.css';
 import PrivateRoute from "./components/common/PrivateRoute";
 

@@ -9,7 +9,7 @@ import Moment from 'moment';
 import clsx from 'clsx';
 
 
-import {withRouter} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import isEmpty from "../validation/is-empty";
 import GoogleMapReact from 'google-map-react';
 import classNames from "classnames";
@@ -19,6 +19,9 @@ import FormLabel from "@material-ui/core/FormLabel";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Radio from "@material-ui/core/Radio";
+import Icon from "@material-ui/core/Icon";
+import Fab from "@material-ui/core/Fab";
+import MenuItem from "./layout/Navbar";
 
 class History extends Component {
     constructor(props) {
@@ -35,7 +38,7 @@ class History extends Component {
             },
             histSelected: null
         };
-        this.handleSubmit = this.handleSubmit.bind(this);
+        // this.handleSubmit = this.handleSubmit.bind(this);
 
     }
     componentDidMount() {  // if user is already logged in redirect
@@ -70,70 +73,58 @@ class History extends Component {
             lat: hist.latitude,
             lng: hist.longitude,
             arrival_at: Moment(hist.arrival_at).format('YYYY-MM-DD HH:mm:ss'),
-            leave_at: Moment(hist.leave_at).format('YYYY-MM-DD HH:mm:ss'),
+            // leave_at: Moment(hist.leave_at).format('YYYY-MM-DD HH:mm:ss'),
         };
         this.setState({currentLocation: pos, histSelected: index })
     }
 
-    handleSubmit(evt){
-        evt.preventDefault();
-        // console.log(`Handling submit`);
-        // const new_profile ={
-        //     firstName: this.state.firstName,
-        //     lastName: this.state.lastName,
-        //     birthday: this.state.birthday,
-        //     city: this.state.city,
-        //     country: this.state.country,
-        //     nationality: this.state.nationality,
-        //     email: this.state.email,
-        //     phone: this.state.phone
-        // };
-        // console.log(new_profile);
-        // const user_id = this.props.auth.user.result.id;
-        // console.log(user_id);
-        // this.setState({loading: true});
-        // this.props.updateProfile(new_profile, user_id, this.props.history);   //so we can redirect from action
-        // we dont have to do http://5000 cus of the proxy value we included in our package.json
-        let newHist = [
-            {
-                latitude: "123.23",
-                longitude: "623.32",
-                arrival_at: "2019-12-17 00:04:50",
-                leave_at: "2019-12-17 00:08:50"
-            }
-        ];
-        const user_id = this.props.auth.user.result.id;
-
-        this.props.updateHistory(newHist,user_id,this.props.history);
-
-        console.log(`Handle submit`);
-    }
+    // handleSubmit(evt){
+    //     evt.preventDefault();
+    //
+    //     let newHist = [
+    //         {
+    //             latitude: "123.23",
+    //             longitude: "623.32",
+    //             arrival_at: "2019-12-17 00:04:50",
+    //             leave_at: "2019-12-17 00:08:50"
+    //         }
+    //     ];
+    //     const user_id = this.props.auth.user.result.id;
+    //
+    //     this.props.updateHistory(newHist,user_id,this.props.history);
+    //
+    //     console.log(`Handle submit`);
+    // }
 
     render() {
         const {hist, currentLocation, zoom, histSelected} = this.state;
         const {classes} = this.props;
         let history=null;
-        if(!isEmpty(hist)) {
-            history = hist.hist.map((hist,index) => (
-                    <div key={index} onClick={()=>this.handleClick(hist, index)} className={classNames( classes.hist, {
-                        [classes.selected]: index === histSelected
-                    })} >
-                        Latitude: {hist.latitude}°    Longitude: {hist.longitude}°
-                    </div>
-                ));
+        if(!isEmpty(hist.hist)) {
+            history = hist.hist.map((hist, index) => (
+                <div key={index} onClick={() => this.handleClick(hist, index)} className={classNames(classes.hist, {
+                    [classes.selected]: index === histSelected
+                })}>
+                    Latitude: {hist.latitude}° Longitude: {hist.longitude}°
+                </div>
+            ));
+        }else{
+            history = <div className={ classes.hist}>
+                Looks like there is nothing here!
+            </div>
         }
 
         return (
             <div style={{ width: '100%', maxWidth: "100%", overflow: "hidden"}} className={classes.container}>
-                <section className={classes.historyStyle} style={{display: "inline-block"}}>
+                <section className={ classes.historyStyle} style={{display: "inline-block", overflow: "scroll"}}>
                     <p  className={classes.yourHistory}>Your History</p>
                     {history}
-                    <button onClick={this.handleSubmit} >Add history</button>
+                    {/*<button onClick={this.handleSubmit} >Add history</button>*/}
                 </section>
 
                 <section  className={ classes.mapStyle} style={{display: "inline-block"}}>
                     {currentLocation.arrival_at !== null && currentLocation.arrival_at !== undefined && currentLocation.arrival_at !== "Invalid date" ? (
-                        <div style={{marginBottom: "0.2em", color: "white", textAlign: "center", fontSize: "1.5em"}}>You arrived at {currentLocation.arrival_at} and left {currentLocation.leave_at}</div>
+                        <div style={{marginBottom: "0.2em", color: "white", textAlign: "center", fontSize: "1.5em"}}>You arrived at {currentLocation.arrival_at}</div>
                         ) : null}
                 <GoogleMapReact
                     className={classes.mapStyle}
@@ -148,10 +139,12 @@ class History extends Component {
                 >
                             <MapMarker
                                        lat={currentLocation.lat}
-                                       lng={currentLocation.lng} />
+                                       lng={currentLocation.lng}
+                                       col={"rgb(245, 0, 87)"}/>
 
                 </GoogleMapReact>
             </section>
+
             </div>
         );
     }

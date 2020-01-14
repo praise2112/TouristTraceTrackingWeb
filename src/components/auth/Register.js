@@ -94,6 +94,8 @@ class Register extends Component {
         const {classes} = this.props;
         const {email, username, password, repeatPassword, loading} = this.state;
         return (
+            <section className={classes.container}>
+
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <div className={classes.paper}>
@@ -209,6 +211,7 @@ class Register extends Component {
                         {'.'}
                 </Typography>
             </Container>
+            </section>
         );
     }
 }

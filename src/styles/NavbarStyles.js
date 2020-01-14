@@ -123,6 +123,24 @@ const useStyles =makeStyles( theme=>({
         border: "none !important",
         borderWidth: "0 !important",
         borderColor: "none !important"
+    },
+    "@media only screen and (max-width: 768px)": {
+        motionMenu:{
+            "& div div:nth-child(2)":{
+                // position: "relative !important",
+                display: "flex !important",
+                marginLeft: "1.5em",
+                background: "rgba(33, 150, 243, 0.2) ",
+                borderRadius: "0 0 20% 20%"
+            },
+            "& div div:nth-child(3)":{
+                // position: "relative !important",
+                display: "flex !important",
+                marginLeft: "1.5em",
+                background: "rgba(33, 150, 243, 0.2) ",
+                borderRadius: "20% 20% 0 0"
+            },
+        }
     }
 }));
 

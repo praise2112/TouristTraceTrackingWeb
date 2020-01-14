@@ -20,6 +20,8 @@ import {TextValidator, ValidatorForm} from "react-material-ui-form-validator";
 import {message} from "antd";
 import axios from "axios";
 import {getCurrentProfile, updateProfile} from "../actions/profileActions";
+import Fab from "./History";
+import Icon from "@material-ui/core/Icon";
 
 
 
@@ -61,11 +63,13 @@ class Profile extends Component {
         }
         console.log(`Profile is:`);
         console.log(nextProps.profile);
+        let birthday = Moment(nextProps.profile.profile.birthday).format('YYYY-MM-DD');
+        if(birthday === "Invalid date") birthday = null;
         if(this.props.profile){
             this.setState({
                 firstName: nextProps.profile.profile.firstName,
                 lastName: nextProps.profile.profile.lastName,
-                birthday:  Moment(nextProps.profile.profile.birthday).format('YYYY-MM-DD'),
+                birthday:  birthday,
                 city: nextProps.profile.profile.city,
                 country: nextProps.profile.profile.country,
                 nationality: nextProps.profile.profile.nationality,
@@ -107,6 +111,8 @@ class Profile extends Component {
         const {classes} = this.props;
         const {firstName, lastName, birthday, city, country, nationality, phone, email, loading} = this.state;
         return (
+            <section className={classes.container} style={{height: "135vh"}}>
+
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <div className={classes.paper}>
@@ -242,6 +248,7 @@ class Profile extends Component {
                     {'.'}
                 </Typography>
             </Container>
+            </section>
         );
     }
 }

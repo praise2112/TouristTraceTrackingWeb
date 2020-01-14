@@ -46,6 +46,7 @@ export const updateProfile = (profileData, id, history) =>  async dispatch => {
     // dispatch(setProfileLoading());  // set loading to true
     const url = "http://34.87.80.154:443";
     axios.defaults.headers.common['Authorization'] = "Bearer "+axios.defaults.headers.common['Authorization'];
+    console.log(axios.defaults.headers.common['Authorization']);
 
     await axios.put(`${url}/api/users/${id}`, profileData)
         .then(res => {

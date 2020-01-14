@@ -29,7 +29,6 @@ import {deepOrange, green, pink} from "@material-ui/core/colors";
 import Avatar from "./auth/Login";
 import {withStyles} from "@material-ui/core";
 // import Divider from "@material-ui/core/Divider";
-import PlaceCard from "./PlaceCard";
 import MapMarker from "./MapMarker";
 import MapCard from "./MapCard";
 import Fab from "@material-ui/core/Fab";
@@ -97,8 +96,8 @@ class MapContainer extends Component {
                 {
                     latitude: this.state.currentLocation.lat,
                     longitude: this.state.currentLocation.lng,
-                    arrival_time: this.state.arrival_time,
-                    leave_time: this.state.leave_time
+                    arrival_at: this.state.arrival_time,
+                    // leave_time: this.state.leave_time
                 }
             ];
             const user_id = this.props.auth.user.result.id;
@@ -188,7 +187,7 @@ class MapContainer extends Component {
             return ev.returnValue = 'Are you sure you want to close?';
         });
         // run every 5 seconds
-        setInterval(userLeft, 5*1000);
+        setInterval(userLeft, 30*1000);
     }
 
 
@@ -290,7 +289,7 @@ class MapContainer extends Component {
             this.setState({showCard: !this.state.showCard})
     });
 
-    // With the constraints, find some places serving ice-cream
+    // With the constraints, find some places
     handleSearch = (() => {
         const { markers, constraints, sliderValue, placesService, directionService, mapsApi } = this.state;
         if (markers.length === 0) {
@@ -305,37 +304,34 @@ class MapContainer extends Component {
 
         const placesRequest = { //https://developers.google.com/places/web-service/search#TextSearchRequests
             location: markerLatLng,
-            // radius: '30000', // Cannot be used with rankBy. Pick your poison!
-            // type: ['restaurant', 'cafe'], // List of types: https://developers.google.com/places/supported_types
-            // query: 'ice cream',
             type: [this.state.selectorValue], // List of types: https://developers.google.com/places/supported_types
             query: this.state.selectorValue,
             rankBy: mapsApi.places.RankBy.DISTANCE, // Cannot be used with radius.
         };
-        // First, search for ice cream shops.
+        // First, search for places.
         placesService.textSearch(placesRequest, ((response) => {
             console.log(`response is: `);
             console.log(response);
             // Only look at the nearest top 5.
             const responseLimit = Math.min(10, response.length);
             for (let i = 0; i < responseLimit; i++) {
-                const iceCreamPlace = response[i];
-                const { rating, name } = iceCreamPlace;
-                const address = iceCreamPlace.formatted_address; // e.g 80 mandai Lake Rd,
-                const priceLevel = iceCreamPlace.price_level; // 1, 2, 3...
+                const placeResponse = response[i];
+                const { rating, name } = placeResponse;
+                const address = placeResponse.formatted_address; // e.g 80 mandai Lake Rd,
+                const priceLevel = placeResponse.price_level; // 1, 2, 3...
                 let photoUrl = '';
                 let openNow = false;
-                if (iceCreamPlace.opening_hours) {
-                    openNow = iceCreamPlace.opening_hours.open_now; // e.g true/false
+                if (placeResponse.opening_hours) {
+                    openNow = placeResponse.opening_hours.open_now; // e.g true/false
                 }
-                if (iceCreamPlace.photos && iceCreamPlace.photos.length > 0) {
-                    photoUrl = iceCreamPlace.photos[0].getUrl();
+                if (placeResponse.photos && placeResponse.photos.length > 0) {
+                    photoUrl = placeResponse.photos[0].getUrl();
                 }
 
-                // Second, For each iceCreamPlace, check if it is within acceptable travelling distance
+                // Second, For each placeResponse, check if it is within acceptable travelling distance
                 const directionRequest = {
                     origin: markerLatLng,
-                    destination: address, // Address of ice cream place
+                    destination: address, // Address of place
                     travelMode: 'DRIVING',
                 }
                 directionService.route(directionRequest, ((result, status) => {
@@ -370,7 +366,6 @@ class MapContainer extends Component {
         const {classes} = this.props;
         const { constraints, mapsLoaded, singaporeLatLng, markers, searchResults, name, isSelectorOpenValue, showCard, currentLocation, placeLocation } = this.state;
         const { autoCompleteService, geoCoderService, SG_COOR, zoom, selectorValue } = this.state; // Google Maps Services
-            console.log(isSelectorOpenValue);
 
             return (
                 // maxHeight: "100vh",height: '100vh'
@@ -417,12 +412,7 @@ class MapContainer extends Component {
                             onGoogleApiLoaded={({ map, maps }) => this.apiHasLoaded(map, maps)} // "maps" is the mapApi. Bad naming but that's their library.
                         >
                              {/*Pin markers on the Map*/}
-                            {currentLocation.lat !== undefined ? (
-                                <MapMarker key={"khg"}
-                                           handleMarkerClick={this.handleMarkerClick}
-                                           lat={currentLocation.lat}
-                                           lng={currentLocation.lng} />
-                            ):null}
+
 
                             {markers.map((marker, key) => {
                                 const { name, lat, lng } = marker;
@@ -431,10 +421,18 @@ class MapContainer extends Component {
                                                name={name}
                                                handleMarkerClick={this.handleMarkerClick}
                                                lat={lat}
-                                               lng={lng} />
+                                               lng={lng}
+                                               col={"rgb(245, 0, 87)"}/>
 
                                 );
                             })}
+                            {currentLocation.lat !== undefined ? (
+                                <MapMarker key={"khg"}
+                                           handleMarkerClick={this.handleMarkerClick}
+                                           lat={currentLocation.lat}
+                                           lng={currentLocation.lng}
+                                           col={"rgb(63, 81, 181)"} />
+                            ):null}
                         </GoogleMapReact>
                         </section>
                      {/*</div>*/}
@@ -444,9 +442,12 @@ class MapContainer extends Component {
                 {searchResults.length>0  && showCard ?
                     <>
                         {/*<Divider />*/}
-                        <section className="col-12 ml-5">
+                        <section className={ classes.cardContainer}>
+
+
+                        <section className={"col-12 ml-5 "}>
                             <div className="d-flex flex-column justify-content-center">
-                                <h1 className="mb-4 fw-md">{selectorValue}</h1>
+                                <h1 className="mb-4 fw-md">{selectorValue.replace("_", " ")}</h1>
                                 <div className="d-flex flex-wrap">
                                     {/*<PlaceCard info={result} key={key} />*/}
 
@@ -458,17 +459,18 @@ class MapContainer extends Component {
 
                             </div>
                         </section>
+                        </section>
                     </>
                     : null}
 
 
-                        {/*<SwapHorizontalCircleOutlinedIcon/>*/}
+                    {/*<SwapHorizontalCircleOutlinedIcon/>*/}
                         {showCard ? (
-                            <Fab color="secondary"  style={{fontSize: "1em", position: "fixed", top: "90%", marginLeft:"0.5em"}} >
+                            <Fab color="secondary"  style={{fontSize: "1em", position: "fixed", top: "90%", marginLeft:"0.5em"}}  onClick={this.toggleMap}>
                               <Icon className="fas fa-angle-double-left" onClick={this.toggleMap} />
                             </Fab>
                         ):(
-                            <Fab color="secondary"  style={{fontSize: "1em", position: "absolute", top: "87%", marginLeft:"0.5em"}} >
+                            <Fab color="secondary"  style={{fontSize: "1em", position: "absolute", top: "87%", marginLeft:"0.5em" }}  onClick={this.toggleMap} >
                                 <Icon className="fas fa-angle-double-right" onClick={this.toggleMap} />
                             </Fab>
                         )}

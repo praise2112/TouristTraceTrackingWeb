@@ -89,7 +89,10 @@ class Login extends Component {
         const {email, username, password, loading} = this.state;
 
         return (
-            <Container component="main" maxWidth="xs" className={classes.container}>
+            <section className={classes.container}>
+
+
+            <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <div className={classes.paper}>
                     <Avatar className={classes.avatar}>
@@ -188,6 +191,7 @@ class Login extends Component {
                     {'.'}
                 </Typography>
             </Container>
+            </section>
         );
     }
 }

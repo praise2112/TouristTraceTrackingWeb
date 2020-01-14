@@ -15,8 +15,8 @@ export const registerUser = (userData, history)=> async (dispatch) =>{
     console.log(url);
     await axios.post(url, userData)
         .then(res => {
-            // history.push('/login')
-            loginUser(userData, history);
+            // history.push('/login');
+           dispatch(loginUser(userData, history));
             message.success("Signed up successfully")
         })     // redirect to login
         .catch(err => {
@@ -35,7 +35,7 @@ export const registerUser = (userData, history)=> async (dispatch) =>{
 // Login - Get user token
 export const loginUser = (userData, history) => async (dispatch) => {
     const url = "http://34.87.80.154:443/api/users/login";
-
+    console.log(`logging in user `);
     await axios.post(url, userData)
         .then(res => {
             console.log("res is:"+ res);

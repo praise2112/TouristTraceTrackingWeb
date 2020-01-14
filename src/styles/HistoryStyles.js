@@ -20,9 +20,22 @@ const styles =  theme =>  ({
         position: "absolute",
     },
     historyStyle:{
+        // "&::WebkitScrollbar": {
+        //     width: "10px !important",
+        //     backgroundColor: "#F5F5F5 !important"
+        // },
+        // "&::WebkitScrollbarTrack": {
+        //     border: "1px solid black !important",
+        //     backgroundColor: "#F5F5F5 !important"
+        // },
+        // "&::WebkitScrollbarThumb": {
+        //     backgroundColor: "#000000 !important"
+        // },
         marginTop: "3em",
-        height: "100%",
-        width: "38%"
+        height: "100vh",
+        width: "38%",
+
+
     },
     hist:{
         fontSize: "1.5em",
@@ -45,6 +58,17 @@ const styles =  theme =>  ({
         color: "gray",
         fontWeight: "bold"
     },
+    scrollbar: {
+
+    },
+
+    forceOverflow:{
+    minHeight: "450px"
+    },
+styleone: {
+
+}
+
 
 
 });

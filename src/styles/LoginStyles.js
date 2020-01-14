@@ -1,9 +1,18 @@
 import { makeStyles } from '@material-ui/core/styles'
 import {deepOrange, green, pink} from "@material-ui/core/colors";
 import React from "react";
+import bg2 from "./bg2.svg";
 const styles =  theme =>  ({
+    container:{
+        height: "100vh",
+        background: `url(${bg2}) no-repeat center center fixed`,
+        WebkitBackgroundSize: "cover",
+        MozBackgroundSize: "cover",
+        OBackgroundSize: "cover",
+        backgroundSize: "cover !important",
+    },
     paper: {
-        marginTop: theme.spacing(8),
+        paddingTop: theme.spacing(8),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

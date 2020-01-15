@@ -1,0 +1,106 @@
+{
+  "_from": "react-motion-menu",
+  "_id": "react-motion-menu@0.4.4",
+  "_inBundle": false,
+  "_integrity": "sha1-tMLU8MZsz1GiLc0Uq6H7nCUOvaQ=",
+  "_location": "/react-motion-menu",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "react-motion-menu",
+    "name": "react-motion-menu",
+    "escapedName": "react-motion-menu",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/react-motion-menu/-/react-motion-menu-0.4.4.tgz",
+  "_shasum": "b4c2d4f0c66ccf51a22dcd14aba1fb9c250ebda4",
+  "_spec": "react-motion-menu",
+  "_where": "C:\\Users\\Admin\\WebstormProjects\\TouristTraceTrackingWeb\\tourist-trace-tracking-web",
+  "author": {
+    "name": "bokuweb"
+  },
+  "browserify": {
+    "transform": [
+      "babelify"
+    ]
+  },
+  "bugs": {
+    "url": "https://github.com/bokuweb/react-motion-menu/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "prop-types": "^15.5.10",
+    "react-motion": "^0.4.7"
+  },
+  "deprecated": false,
+  "description": "Animation menu component for React.",
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-eslint": "^7.1.1",
+    "babel-plugin-espower": "2.3.1",
+    "babel-polyfill": "^6.20.0",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-2": "^6.18.0",
+    "babelify": "7.3.0",
+    "browserify": "^13.3.0",
+    "enzyme": "^2.7.0",
+    "eslint": "^3.13.0",
+    "eslint-config-airbnb": "^13.0.0",
+    "eslint-plugin-import": "^2.1.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-react": "^6.6.0",
+    "flow-bin": "^0.37.4",
+    "karma": "^1.3.0",
+    "karma-browserify": "5.1.0",
+    "karma-cli": "^1.0.1",
+    "karma-mocha": "1.3.0",
+    "karma-nightmare": "^0.2.7",
+    "mocha": "3.2.0",
+    "power-assert": "1.4.2",
+    "react": ">=15.4.1",
+    "react-addons-test-utils": "^15.4.1",
+    "react-dom": ">=15.4.1",
+    "sinon": "^1.17.7",
+    "watchify": "3.8.0"
+  },
+  "files": [
+    "lib"
+  ],
+  "homepage": "https://github.com/bokuweb/react-motion-menu",
+  "keywords": [
+    "react",
+    "menu",
+    "motion",
+    "component",
+    "animation"
+  ],
+  "license": "MIT",
+  "main": "lib/index.js",
+  "name": "react-motion-menu",
+  "peerDependencies": {
+    "react": ">=15",
+    "react-dom": ">=15"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bokuweb/react-motion-menu.git"
+  },
+  "scripts": {
+    "build:example": "browserify --extension=js -o docs/dist/bundle.js docs/src/index.js",
+    "compile": "babel --presets react -d lib/ src/",
+    "lint": "eslint ./src",
+    "styleguide": "styleguidist build",
+    "test": "npm run lint && karma start",
+    "test:watch": "karma start --auto-watch --no-single-run",
+    "watch:example": "watchify --extension=js -o docs/dist/bundle.js docs/src/index.js"
+  },
+  "version": "0.4.4"
+}

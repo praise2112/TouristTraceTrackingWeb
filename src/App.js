@@ -20,6 +20,7 @@ import Register from './components/auth/Register';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/antd/dist/antd.css';
 import PrivateRoute from "./components/common/PrivateRoute";
+import Admin from "./components/Admin";
 
 // Check for token
 if(localStorage.jwtToken){
@@ -60,6 +61,13 @@ function App() {
                         path="/login"
                         render={routeProps =>(
                             <Login {...routeProps}/>
+                        )}
+                    />
+                    <Route
+                        exact
+                        path="/admin"
+                        render={routeProps =>(
+                            <Admin {...routeProps}/>
                         )}
                     />
                     <Route

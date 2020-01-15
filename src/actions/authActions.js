@@ -75,6 +75,31 @@ export const loginUser = (userData, history) => async (dispatch) => {
         );
 };
 
+export const loginAdmin = (userData, history) => async (dispatch) => {
+    const url = "http://34.87.80.154:443/api/users/admin";
+    console.log(`logging in admin `);
+    await axios.post(url, userData)
+        .then(res => {
+            console.log("res is:"+ res);
+            console.log( res);
+            message.success("Login Successful");
+
+            // history.push('/')
+
+        })
+        .catch(err => {
+                console.log(`err is :${err}`);
+                console.log(err);
+                console.log(err.data);
+                console.log(err.response);
+                dispatch({
+                    type: GET_ERRORS,  //this call test dispatch. to dispsatch to our reducer
+                    payload: err.response.data //sets payload to errors coming from server
+                })
+            }
+        );
+};
+
 // Set logged  in user
 export const setCurrentUser = (decoded) => {
   return {

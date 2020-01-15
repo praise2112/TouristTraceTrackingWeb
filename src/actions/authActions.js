@@ -75,6 +75,7 @@ export const loginUser = (userData, history) => async (dispatch) => {
         );
 };
 
+// login admin
 export const loginAdmin = (userData, history) => async (dispatch) => {
     const url = "http://34.87.80.154:443/api/users/admin";
     console.log(`logging in admin `);
@@ -99,6 +100,7 @@ export const loginAdmin = (userData, history) => async (dispatch) => {
             }
         );
 };
+
 
 // Set logged  in user
 export const setCurrentUser = (decoded) => {

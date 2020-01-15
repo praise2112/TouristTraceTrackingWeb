@@ -17,6 +17,10 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import {message } from 'antd';
 import {loginAdmin} from "../actions/authActions";
+import {getAllUsers} from "../actions/profileActions";
+import isEmpty from "../validation/is-empty";
+import classNames from "classnames";
+import Moment from "./History";
 
 
 
@@ -32,12 +36,16 @@ class Admin extends Component {
             username:"",
             name: "",
             password: "",
+            users:{},
             loggedIn: false,
             loading: false,
-            errors: {}
+            errors: {},
+            itemSelected: 1,
+            data: ""
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleClick = this.handleClick.bind(this);
 
     }
     componentDidMount() {  // if user is already logged in redirect
@@ -60,13 +68,42 @@ class Admin extends Component {
             });
 
         }
+        console.log(`Profile is:`);
+        console.log(nextProps.profile.profiles);
+        if(this.props.profile.profiles){
+            this.setState({users: this.props.profile.profiles});
+        }
     }
     handleChange(evt){
         this.setState({
             [evt.target.name]: evt.target.value
         });
     }
-
+    handleClick(index, type){
+        let data;
+        switch (type) {
+            case "all_users": data = this.props.profile.profiles.data.map((user, index) => (
+                <div key={index} >
+                    Client id: {user.id} Name: {user.firstName + "  " + user.lastName}
+                </div>
+            ));
+                this.setState({ data });
+                return;
+            case "delete_user": data = <div>Delete User is still in development</div>;
+                this.setState({ data });
+                return ;
+            case "update_history": data = <div>Update a user history is still in development</div>;
+                this.setState({ data });
+                return;
+            case "delete_history": data = <div>Delete a user history is still in development</div>;
+                this.setState({ data });
+                return;
+            case "update_profile": data = <div>Delete a user profile is still in development</div>;
+                this.setState({ data });
+                return;
+        }
+        this.setState({ itemSelected: index })
+    }
     handleSubmit(evt){
         evt.preventDefault();
         const userData = {
@@ -78,6 +115,10 @@ class Admin extends Component {
         this.setState({loading: true});
         this.props.loginAdmin(userData, this.props.history);
         this.setState({loggedIn: true, loading: false});
+        this.props.getAllUsers();
+        // console.log(`users from admin`);
+        // console.log(users);
+        // this.setState(users);
         // message.success("Succesfully logged in user");
 
         console.log(`Handle submit`);
@@ -88,7 +129,7 @@ class Admin extends Component {
 
     render() {
         const {classes} = this.props;
-        const {username, name, password, loading, loggedIn} = this.state;
+        const {username, name, password, loading, loggedIn, itemSelected, data} = this.state;
         // {loggedIn ? }
         {/*<div>You are now logged In</div> : */}
         const form =  (<section className={classes.container}>
@@ -187,25 +228,43 @@ class Admin extends Component {
                 </Typography>
             </Container>
         </section>);
-        const users =(
-            <section style={{ width: '100vw', height:'100vh', maxWidth: "100vh", overflow: "hidden"}} className={classes.container}>
+        const dashboard =(
+            <div style={{ width: '100vw', height:'100vh', maxWidth: "100vh", overflow: "hidden"}} className={classes.container}>
                 <p>Admin Page</p>
-                    <section style={{ width: '30%',  height:'100vh'}}>
-                        <p>View all Users</p>
-                        <p>Delete a User</p>
-                        <p>Update a User History</p>
-                        <p>Delete a User History</p>
-                        <p>Update a User Profile</p>
+                    <section style={{ width: '30%',  height:'100vh',display: "inline-block"}}>
+                        <p onClick={() => this.handleClick(1,"all_users")}
+                           className={classNames(classes.hist, {
+                            [classes.selected]: 1 === itemSelected
+                        })}>View all Users</p>
+                        <p onClick={() => this.handleClick(2, "delete_user")}
+                           className={classNames(classes.hist, {
+                               [classes.selected]: 2 === itemSelected
+                           })}>
+                            Delete a User</p>
+                        <p onClick={() => this.handleClick(3, "update_history")}
+                           className={classNames(classes.hist, {
+                               [classes.selected]: 3 === itemSelected
+                           })}>
+                            Update a User History</p>
+                        <p onClick={() => this.handleClick(4, "delete_history")}
+                           className={classNames(classes.hist, {
+                            [classes.selected]: 4 === itemSelected
+                        })}>Delete a User History</p>
+                        <p onClick={() => this.handleClick(5, "update_profile")}
+                           className={classNames(classes.hist, {
+                            [classes.selected]: 5 === itemSelected
+                        })}>Update a User Profile</p>
                     </section>
-                    <section style={{ width: '70%', height:'100vh'}}>
-                        <p>Stuff Here</p>
+                    <section style={{ width: '60%', height:'100vh', display: "inline-block", position:"absolute", marginTop: "-2em", color: "black"}}>
+                        {/*<p>Stuff Here</p>*/}
+                        {data}
                     </section>
-            </section>
+            </div>
         );
 
             return (
             <>
-             { loggedIn? users:  form}
+             { loggedIn? dashboard:  form}
             </>
             // )}
         );
@@ -215,13 +274,17 @@ class Admin extends Component {
 Admin.propTypes ={
     loginAdmin: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
-    errors: PropTypes.object.isRequired
+    errors: PropTypes.object.isRequired,
+    profile: PropTypes.object.isRequired,
+
 };
 
 // if we want to get the auth state to our component we use
 const mapStateToProps = (state) =>({
     auth: state.auth,  //the name auth in state.auth comes from our root reducer(index)
-    errors: state.errors
+    errors: state.errors,
+    profile: state.profile
+
 });
 
-export default connect(mapStateToProps, { loginAdmin })(withStyles(styles, {withTheme: true})(Admin));
+export default connect(mapStateToProps, { loginAdmin, getAllUsers })(withStyles(styles, {withTheme: true})(Admin));

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import {GET_PROFILE, PROFILE_LOADING, GET_ERRORS, CLEAR_CURRENT_PROFILE, CLEAR_ERRORS} from "./types";
+import {GET_PROFILE, PROFILE_LOADING, GET_ERRORS, CLEAR_CURRENT_PROFILE, CLEAR_ERRORS, GET_PROFILES} from "./types";
 import {message} from 'antd';
 
 // Get current profile
@@ -72,6 +72,36 @@ export const updateProfile = (profileData, id, history) =>  async dispatch => {
         });
     axios.defaults.headers.common['Authorization'] =  axios.defaults.headers.common['Authorization'].slice(7);
 
+};
+
+
+export const getAllUsers = () => async (dispatch) => {
+    const url = "http://34.87.80.154:443/api/users";
+    await axios.get(url)
+        .then(res => {
+            console.log("res is:"+ res);
+            console.log( res);
+            message.success("Got all users");
+            dispatch({
+                type: GET_PROFILES,
+                payload: res.data
+            });
+            // return res.data
+            // history.push('/')
+
+        })
+        .catch(err => {
+                console.log(`err is :${err}`);
+                console.log(err);
+                console.log(err.data);
+                console.log(err.response);
+                dispatch({
+                    type: GET_ERRORS,  //this call test dispatch. to dispsatch to our reducer
+                    payload: err.response.data //sets payload to errors coming from server
+                });
+                return null;
+            }
+        );
 };
 
 

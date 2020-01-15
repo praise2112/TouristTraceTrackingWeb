@@ -55,7 +55,22 @@ const styles =  theme =>  ({
     halfWidth_x2:{
         width: '45%', // Fix IE 11 issue.
         marginLeft: '10%'
-    }
+    },
+    selected:{
+        color: "gray"
+    },
+    hist:{
+        fontSize: "1.5em",
+        textAlign: "center",
+        marginTop: "0.5em",
+        marginBottom: "0.5em",
+        padding: "0.2em",
+        "&:hover":{
+            color: "gray",
+            borderRadius:"10%",
+            background: "rgba(16, 16, 16, 0.5)"
+        }
+    },
 });
 
 export default styles;

@@ -188,16 +188,16 @@ class Admin extends Component {
             </Container>
         </section>);
         const users =(
-            <section style={{ width: '100%', maxWidth: "100%", overflow: "hidden"}} className={classes.container}>
+            <section style={{ width: '100vw', height:'100vh', maxWidth: "100vh", overflow: "hidden"}} className={classes.container}>
                 <p>Admin Page</p>
-                    <section style={{ width: '30%'}}>
+                    <section style={{ width: '30%',  height:'100vh'}}>
                         <p>View all Users</p>
                         <p>Delete a User</p>
                         <p>Update a User History</p>
                         <p>Delete a User History</p>
                         <p>Update a User Profile</p>
                     </section>
-                    <section style={{ width: '70%'}}>
+                    <section style={{ width: '70%', height:'100vh'}}>
                         <p>Stuff Here</p>
                     </section>
             </section>

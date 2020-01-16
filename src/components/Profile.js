@@ -57,19 +57,21 @@ class Profile extends Component {
         if(nextProps.errors  && nextProps.auth.isAuthenticated){
             this.setState({errors: nextProps.errors}, ()=>{
                 this.setState({loading:false});
-                if(this.state.errors.message !== undefined)
+                if(this.state.errors.message !== undefined) {
                     message.error(this.state.errors.message);
+                    this.setState({errors: {}})
+                }
             });
         }
         console.log(`Profile is:`);
         console.log(nextProps.profile);
         let birthday = Moment(nextProps.profile.profile.birthday).format('YYYY-MM-DD');
         if(birthday === "Invalid date") birthday = null;
-        if(this.props.profile){
+        if(this.props.profile) {
             this.setState({
                 firstName: nextProps.profile.profile.firstName,
                 lastName: nextProps.profile.profile.lastName,
-                birthday:  birthday,
+                birthday: birthday,
                 city: nextProps.profile.profile.city,
                 country: nextProps.profile.profile.country,
                 nationality: nextProps.profile.profile.nationality,
@@ -78,6 +80,7 @@ class Profile extends Component {
             })
         }
     }
+
     handleChange(evt){
         this.setState({
             [evt.target.name]: evt.target.value

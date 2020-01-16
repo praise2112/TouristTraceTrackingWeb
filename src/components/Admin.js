@@ -140,7 +140,7 @@ class Admin extends Component {
                         <LockOutlinedIcon/>
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Login
+                        Admin Login
                     </Typography>
                     <ValidatorForm onSubmit={this.handleSubmit} ref={'form'} className={classes.form}>
                         <TextValidator
@@ -255,7 +255,7 @@ class Admin extends Component {
                             [classes.selected]: 5 === itemSelected
                         })}>Update a User Profile</p>
                     </section>
-                    <section style={{ width: '60%', height:'95vh', display: "inline-block", position:"absolute", marginLeft: "4em", fontSize: "1.5em"}}>
+                    <section style={{ width: '60%', height:'95vh', display: "inline-block", position:"absolute", marginLeft: "3em", fontSize: "1.5em"}}>
                         {/*<p>Stuff Here</p>*/}
                         {data}
                     </section>

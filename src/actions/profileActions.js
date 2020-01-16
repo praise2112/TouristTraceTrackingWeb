@@ -6,7 +6,6 @@ import {message} from 'antd';
 // Get current profile
 export const getCurrentProfile = (id) =>async dispatch => {
     // dispatch(setProfileLoading());  // set loading to true
-
     const url = `http://34.87.80.154:443/api/users/${id}`;
     console.log(`id is ${id}`);
     console.log(url);
@@ -22,7 +21,6 @@ export const getCurrentProfile = (id) =>async dispatch => {
                 type: GET_PROFILE,
                 payload: res.data.data
             });
-            dispatch(clearErrors());
 
             message.success("Got current profile")
         })

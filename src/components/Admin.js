@@ -83,22 +83,22 @@ class Admin extends Component {
         let data;
         switch (type) {
             case "all_users": data = this.props.profile.profiles.data.map((user, index) => (
-                <div key={index} >
-                    Client id: {user.id} Name: {user.firstName + "  " + user.lastName}
+                <div key={index} style={{marginBottom:'0.5em'}} >
+                    Client id: {user.client_id} Name: {user.firstName + "  " + user.lastName}
                 </div>
             ));
                 this.setState({ data });
                 return;
-            case "delete_user": data = <div>Delete User is still in development</div>;
+            case "delete_user": data = <div style={{fontSize: '3em', fontWeight: 'bold', textAlign: 'center'}}>Delete User is still in development</div>;
                 this.setState({ data });
                 return ;
-            case "update_history": data = <div>Update a user history is still in development</div>;
+            case "update_history": data = <div style={{fontSize: '3em', fontWeight: 'bold', textAlign: 'center'}}>Update a user history is still in development</div>;
                 this.setState({ data });
                 return;
-            case "delete_history": data = <div>Delete a user history is still in development</div>;
+            case "delete_history": data = <div style={{fontSize: '3em', fontWeight: 'bold', textAlign: 'center'}}>Delete a user history is still in development</div>;
                 this.setState({ data });
                 return;
-            case "update_profile": data = <div>Delete a user profile is still in development</div>;
+            case "update_profile": data = <div style={{fontSize: '3em', fontWeight: 'bold', textAlign: 'center'}}>Delete a user profile is still in development</div>;
                 this.setState({ data });
                 return;
         }
@@ -229,9 +229,9 @@ class Admin extends Component {
             </Container>
         </section>);
         const dashboard =(
-            <div style={{ width: '100vw', height:'100vh', maxWidth: "100vh", overflow: "hidden"}} className={classes.container}>
-                <p>Admin Page</p>
-                    <section style={{ width: '30%',  height:'100vh',display: "inline-block"}}>
+            <div style={{ width: '100vw', height:'100vh', maxWidth: "100vw", overflow: "hidden"}} className={classes.container}>
+                <p style={{textAlign: 'center', fontSize: '3em', height:"5vh"}}>Admin Page</p>
+                    <section style={{ width: '30%',display: "inline-block", backgroundColor: "rgba(17, 39, 60, 0.2)"}}>
                         <p onClick={() => this.handleClick(1,"all_users")}
                            className={classNames(classes.hist, {
                             [classes.selected]: 1 === itemSelected
@@ -255,7 +255,7 @@ class Admin extends Component {
                             [classes.selected]: 5 === itemSelected
                         })}>Update a User Profile</p>
                     </section>
-                    <section style={{ width: '60%', height:'100vh', display: "inline-block", position:"absolute", marginTop: "-2em", color: "black"}}>
+                    <section style={{ width: '60%', height:'95vh', display: "inline-block", position:"absolute", marginLeft: "4em", fontSize: "1.5em"}}>
                         {/*<p>Stuff Here</p>*/}
                         {data}
                     </section>

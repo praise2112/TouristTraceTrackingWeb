@@ -57,18 +57,19 @@ const styles =  theme =>  ({
         marginLeft: '10%'
     },
     selected:{
-        color: "gray"
+        color: "rgb(25, 26, 33)"
     },
     hist:{
+        color: 'black',
         fontSize: "1.5em",
         textAlign: "center",
         marginTop: "0.5em",
         marginBottom: "0.5em",
         padding: "0.2em",
         "&:hover":{
-            color: "gray",
-            borderRadius:"10%",
-            background: "rgba(16, 16, 16, 0.5)"
+            color: "white",
+            // borderRadius:"10%",
+            background: "rgba(25, 26, 33, 0.5)"
         }
     },
 });

@@ -34,7 +34,7 @@ export const registerUser = (userData, history)=> async (dispatch) =>{
 
 // Login - Get user token
 export const loginUser = (userData, history) => async (dispatch) => {
-    const url = "http://34.87.80.154:443/api/users/login";
+    const url = "https://34.87.80.154:443/api/users/login";
     console.log(`logging in user `);
     await axios.post(url, userData)
         .then(res => {

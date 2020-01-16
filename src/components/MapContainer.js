@@ -398,7 +398,7 @@ class MapContainer extends Component {
                     {/*<div >*/}
                         {/*<section >*/}
 
-
+                        {console.log("key is : " +process.env.REACT_APP_GOOGLE_KEY)}
                         <GoogleMapReact
                             className={classes.mapStyle}
                             bootstrapURLKeys={{

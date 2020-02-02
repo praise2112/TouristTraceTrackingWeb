@@ -2,7 +2,7 @@
 
 # dependencies
 node_modules/*
-!node_modules/react-motion-menu
+# !node_modules/react-motion-menu
 /.pnp
 .pnp.js
 

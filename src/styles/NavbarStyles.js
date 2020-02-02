@@ -1,7 +1,6 @@
 import {fade} from "@material-ui/core";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {deepOrange, blue} from "@material-ui/core/colors";
-import Navbar from "../components/MapContainer";
 import React from "react";
 
 const useStyles =makeStyles( theme=>({
@@ -80,31 +79,31 @@ const useStyles =makeStyles( theme=>({
             // position: "relative !important",
             display: "flex !important",
             marginLeft: "-15em",
-            background: "rgba(33, 150, 243, 0.2) ",
+            background: "rgba(33, 150, 243, 0.2)",
             borderRadius: "0 0 20% 20%"
         },
         "& div div:nth-child(3)":{
             // position: "relative !important",
             display: "flex !important",
             marginLeft: "-15em",
-            background: "rgba(33, 150, 243, 0.2) ",
+            background: "rgba(33, 150, 243, 0.2)",
             borderRadius: "20% 20% 0 0"
         },
     },
     avatar: {
         margin: theme.spacing(1),
-        padding: "0.2em",
-        borderRadius: "50%",
-        fontSize: "3em",
+        padding: "0.2em !important",
+        borderRadius: "50% !important",
+        fontSize: "3em !important",
         // backgroundColor: theme.palette.secondary.main,
         // color: theme.palette.getContrastText(deepOrange[500]),
-        backgroundColor: blue[800],
+        backgroundColor: "#1565c0 !important" ,
     },
     avatar2: {
         margin: theme.spacing(1),
-        padding: "0.2em",
-        borderRadius: "50%",
-        fontSize: "3em",
+        padding: "0.2em !important",
+        borderRadius: "50% !important",
+        fontSize: "3em !important",
         // backgroundColor: theme.palette.secondary.main,
         // color: theme.palette.getContrastText(deepOrange[500]),
         backgroundColor: blue[900],

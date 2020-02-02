@@ -204,7 +204,7 @@ class Register extends Component {
                 </div>
                 <Typography variant="body2" color="textSecondary" align="center">
                         {'Copyright © '}
-                        <Link color="inherit" href="https://material-ui.com/">
+                        <Link color="inherit" href="/">
                             Tourist Trace Tracking
                         </Link>{' '}
                         {new Date().getFullYear()}

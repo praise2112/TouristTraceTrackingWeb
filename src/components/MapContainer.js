@@ -186,7 +186,7 @@ class MapContainer extends Component {
             });
             return ev.returnValue = 'Are you sure you want to close?';
         });
-        // run every 5 seconds
+        // run every 30 seconds
         setInterval(userLeft, 30*1000);
     }
 
@@ -201,7 +201,7 @@ class MapContainer extends Component {
         console.log(selectorValue +"selector value");
         console.log(sliderValue +"slidervalue");
         console.log(searchValue + "searchvalue");
-        setTimeout(this.handleSearch, 1000);
+        setTimeout(this.handleSearch, 2000);
 
 
     };

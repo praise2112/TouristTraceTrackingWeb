@@ -30,7 +30,6 @@ import { loadCSS } from 'fg-loadcss';
 import Icon from '@material-ui/core/Icon';
 import '../../styles/hovicon.css'
 import ConstraintSlider from "./ConstraintSlider";
-import useStyles from "../../styles/NavbarStyles";
 
 
 import useSliderState from "../../hooks/useSliderState";
@@ -39,6 +38,7 @@ import useSelectorState from "../../hooks/useSelectorState";
 import {Link, NavLink} from "react-router-dom";
 import useToggleState from "../../hooks/useToggleState";
 import MapAutoComplete from "../MapAutoComplete";
+import useStyles from "../../styles/NavbarStyles";
 
 
 
@@ -314,7 +314,7 @@ import MapAutoComplete from "../MapAutoComplete";
          </Tooltip>
     ); const parkIcon =  (
          <Tooltip title={" Parking Lots"} >
-             <IconButton aria-label="Parking Lots" color="inherit" style={{padding: 0}} className={classes.removeButtonBorder+ " hovicon effect-8 mini"}>
+             <IconButton aria-label="Parking Lots" color="inherit" style={{padding: 0, paddingBottom:"2.6em"}} className={classes.removeButtonBorder+ " hovicon effect-8 mini"}>
                  <Avatar className={classes.avatar2}><LocalParkingIcon onClick={()=>{menuRef.current.click(); props.onSelectOption(true,null, null, null)}}/></Avatar>
              </IconButton>
          </Tooltip>
